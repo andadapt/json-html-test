@@ -1,6 +1,6 @@
-# pa11y Accessibility Testing on Windows (WCAG 2.2)
+# Accessibility Testing on Windows (WCAG 2.2)
 
-A guide to setting up and running [pa11y](https://pa11y.org/) on Windows to perform WCAG 2.2 accessibility tests and export results as both **JSON** and **HTML** files.
+A guide to setting up and running [pa11y](https://pa11y.org/) and [axe CLI](https://github.com/dequelabs/axe-cli) on Windows to perform WCAG 2.2 accessibility tests and export results as **JSON** and **HTML** files.
 
 ---
 
@@ -122,9 +122,64 @@ npm run test:a11y
 
 ---
 
+---
+
+## axe CLI
+
+[axe CLI](https://github.com/dequelabs/axe-cli) is Deque's official command line tool built directly on axe-core. It supports WCAG 2.2 out of the box and can save results as a JSON file.
+
+### Install axe CLI globally
+
+```bash
+npm install -g axe-cli
+```
+
+Verify the installation:
+
+```bash
+axe --version
+```
+
+> **Note:** axe CLI also uses Puppeteer (headless Chrome). On first run it may download Chromium automatically — this can take a minute or two.
+
+### Run axe and output a JSON file
+
+```bash
+axe https://www.thetrainline.co.uk --tags wcag2aa,wcag21aa,wcag22aa --save axe-results.json
+```
+
+This creates **`axe-results.json`** in your current folder containing all violations, incomplete checks, passes, and inapplicable rules.
+
+### axe CLI flag reference
+
+| Flag | Description |
+|------|-------------|
+| `--tags wcag2aa,wcag21aa,wcag22aa` | Runs all rules covering WCAG 2.0 AA, 2.1 AA, and 2.2 AA |
+| `--save <filename>` | Saves the JSON results to the specified file |
+| `--reporter raw` | Alternative: prints the full raw JSON to stdout instead of saving |
+| `--browser chrome-headless` | Explicitly use headless Chrome (default) |
+
+### Example: print JSON to stdout instead of a file
+
+```bash
+axe https://www.thetrainline.co.uk --tags wcag2aa,wcag21aa,wcag22aa --reporter raw > axe-results.json
+```
+
+### axe CLI troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| `axe` not recognised after install | Close and reopen your terminal so PATH updates take effect |
+| Chromium download fails | Set `PUPPETEER_SKIP_DOWNLOAD=1` and point to an existing Chrome install via `--browser` |
+| Empty or partial JSON output | Ensure the page fully loads — try adding `--timeout 60000` (milliseconds) |
+| Permission error on global install | Run the command in a terminal opened as Administrator |
+
+---
+
 ## Resources
 
 - [pa11y GitHub](https://github.com/pa11y/pa11y)
 - [pa11y-reporter-html GitHub](https://github.com/pa11y/pa11y-reporter-html)
-- [WCAG 2.2 Guidelines](https://www.w3.org/TR/WCAG22/)
+- [axe CLI GitHub](https://github.com/dequelabs/axe-cli)
 - [axe-core Rules](https://dequeuniversity.com/rules/axe/)
+- [WCAG 2.2 Guidelines](https://www.w3.org/TR/WCAG22/)
