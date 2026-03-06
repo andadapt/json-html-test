@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "pa11y-reporter-html": "^2.0.0"
+  }
+}

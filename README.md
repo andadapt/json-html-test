@@ -44,13 +44,15 @@ This creates a `package.json` file in your folder.
 
 ### 4. Install required packages
 
-Install **pa11y** and **pa11y-reporter-html** (for HTML output):
+Install **pa11y**:
 
 ```bash
-npm install pa11y pa11y-reporter-html
+npm install pa11y
 ```
 
 > **Note:** pa11y uses Puppeteer (headless Chrome) under the hood — it will be installed automatically as a dependency. The first install may take a few minutes.
+>
+> pa11y 9+ includes a built-in `html` reporter — no extra package needed.
 
 ---
 
@@ -67,7 +69,7 @@ npx pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --repor
 ### 6. Run pa11y and output an HTML file
 
 ```bash
-npx pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --reporter pa11y-reporter-html > results.html
+npx pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --reporter html > results.html
 ```
 
 > Both commands test against the **WCAG 2.2 AA** standard (pa11y maps `WCAG2AA` to WCAG 2.2 AA when using the `axe` runner).
@@ -81,7 +83,7 @@ npx pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --repor
 | `--standard WCAG2AA` | Tests against WCAG 2.2 Level AA |
 | `--runner axe` | Uses the [axe-core](https://github.com/dequelabs/axe-core) engine (supports WCAG 2.2) |
 | `--reporter json` | Outputs results as JSON |
-| `--reporter pa11y-reporter-html` | Outputs results as a formatted HTML report |
+| `--reporter html` | Outputs results as a formatted HTML report (built-in since pa11y 9) |
 | `> results.json` | Redirects output to a file |
 
 ---
@@ -92,7 +94,7 @@ Add a script to your `package.json` to run both outputs in one go:
 
 ```json
 "scripts": {
-  "test:a11y": "pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --reporter json > results.json && pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --reporter pa11y-reporter-html > results.html"
+  "test:a11y": "pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --reporter json > results.json && pa11y https://www.thetrainline.co.uk --standard WCAG2AA --runner axe --reporter html > results.html"
 }
 ```
 
@@ -117,8 +119,7 @@ npm run test:a11y
 |-------|-----|
 | `npx` not recognised | Reinstall Node.js and ensure it is added to PATH |
 | Puppeteer download fails | Check your network/proxy settings; try `npm install --ignore-scripts` then install Chromium separately |
-| `pa11y-reporter-html` not found | Run `npm install pa11y-reporter-html` in your project folder |
-| Empty `results.html` | Ensure pa11y-reporter-html is installed locally, not globally |
+| HTML reporter not found | Ensure you are using pa11y 9+ (`npx pa11y --version`). The `html` reporter is built-in — no extra package needed. |
 
 ---
 
